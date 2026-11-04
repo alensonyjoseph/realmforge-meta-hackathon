@@ -12,3 +12,11 @@
 .proof-details summary{cursor:pointer;color:#c6dec9;font-size:10px;font-weight:800;letter-spacing:.08em}
 .proof-details[open] summary{margin-bottom:12px;color:#a7ffdc}
 .proof-details pre{font:500 10px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;margin:0;white-space:pre-wrap;overflow-wrap:anywhere;color:#bad2c9}
+
+.stage-primary{position:absolute;z-index:12;bottom:18px;left:50%;transform:translateX(-50%);min-width:min(295px,86%);min-height:43px;background:linear-gradient(120deg,#f0d49d,#d4a966);color:#14201e;border:1px solid #ffdfad;border-radius:11px;box-shadow:0 12px 45px #06080bc7,0 0 35px #eed09c3b;font-family:Manrope,system-ui,sans-serif;font-size:11px;font-weight:900;letter-spacing:.12em;padding:10px 22px;backdrop-filter:blur(8px);transition:filter .16s}
+.stage-primary:active{transform:translateX(-50%) scale(.98)}.stage-primary:disabled{opacity:.65;filter:grayscale(.5);cursor:wait}
+.world-stage:has(.stage-primary:not([hidden])) .state-toast{bottom:75px;background:#101c20d6}
+.world-stage.split .stage-primary{bottom:17px}
+.world-stage.split #compare{bottom:78px}
+.world-stage.split .state-toast{bottom:109px}
+@media(max-width:760px){.stage-primary{min-width:79%;font-size:10px;min-height:43px;bottom:12px}.world-stage:has(.stage-primary:not([hidden])) .state-toast{bottom:64px}.world-stage.split #compare{bottom:66px}.world-stage.split .state-toast{bottom:96px}}

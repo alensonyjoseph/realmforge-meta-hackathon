@@ -11,7 +11,7 @@ $('access').addEventListener('input',()=>sessionStorage.setItem('rf_demo_access'
 function activity(text,kind='info'){$('activity').textContent=text;$('activity').className='quest-feed '+(kind==='error'?'error':kind==='success'?'success':'');}
 function phase(text){$('phaseLabel').textContent=text;$('stageToast').textContent='✦ '+text;$('cameraState').textContent=state.stream?'CAMERA ACTIVE · LOCAL VIDEO':'CAMERA OFFLINE';$('cameraDot').classList.toggle('on',!!state.stream);}
 function mark(id,yes){$(id).classList.toggle('good',!!yes)}
-function busy(value){state.busy=value;document.body.classList.toggle('busy',value);for(const id of ['awaken','verify','startCamera','uploadBefore','uploadVideo','captureInitial','takeAfter','refine'])$(id).disabled=value||($(id).dataset.locked==='1');}
+function busy(value){state.busy=value;$('stagePrimary').disabled=value;document.body.classList.toggle('busy',value);for(const id of ['awaken','verify','startCamera','uploadBefore','uploadVideo','captureInitial','takeAfter','refine'])$(id).disabled=value||($(id).dataset.locked==='1');}
 function updateButtons(){
  const p=state.phase;const empty=p==='empty',captured=p==='captured',awake=p==='awake',verified=p==='verified';
  for(const [id,show] of [['captureInitial',state.mode==='camera'&&!!state.stream&&(empty||captured)],['awaken',captured],['verify',awake],['takeAfter',awake&&state.mode==='photo'],['playAgain',verified]]){$(id).hidden=!show}
@@ -21,6 +21,9 @@ function updateButtons(){
  $('refine').disabled=!state.realm||state.busy;
  $('viewToggle').disabled=!state.art||state.busy;
  $('takeAfter').disabled=state.busy;
+ const button=$('stagePrimary');
+ button.textContent=verified?'↻ BEGIN NEW REALM':awake?(state.quest?'◈ VERIFY REAL OBJECT MOVE':'↺ CAPTURE CLEARER SCENE'):captured?'✦ AWAKEN REALITY':state.mode==='camera'?(state.stream?'◎ CAPTURE YOUR WORLD':'◉ OPEN CAMERA'):state.mode==='photo'?'▣ CHOOSE A PHOTO':'▶ CHOOSE A VIDEO';
+ button.disabled=state.busy;
 }
 function chooseView(which){
  const stage=$('worldStage');
@@ -246,6 +249,7 @@ $('refine').onclick=async()=>{
  }catch(e){activity('SAM refinement did not succeed: '+e.message,'error')}finally{busy(false);updateButtons()}
 };
 async function modelStatus(){try{const r=await fetch('/api/status');const j=await r.json();$('modelStatus').classList.toggle('connected',!!j.ready);$('modelStatus').innerHTML='<span class="dot"></span>'+(j.ready?'META API READY':'META KEY REQUIRED');}catch{$('modelStatus').textContent='META STATUS UNAVAILABLE'}}
+$('stagePrimary').onclick=()=>{if(state.busy)return;if(state.phase==='verified'){reset(false);return}if(state.phase==='awake'){if(state.quest)$('verify').click();else if(state.stream){try{useBaseline(captureLive(),'camera')}catch(e){activity(e.message,'error')}}else $('beforeFile').click();return}if(state.phase==='captured'){$('awaken').click();return}if(state.mode==='camera'){if(state.stream)$('captureInitial').click();else $('startCamera').click();return}if(state.mode==='photo')$('beforeFile').click();else $('videoFile').click();};
 window.addEventListener('resize',()=>renderMarkers(),{passive:true});
 window.addEventListener('pagehide',()=>{if(state.stream)stopCamera();fx.destroy()});
 modelStatus();setMode('camera');reset(false);
