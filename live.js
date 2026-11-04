@@ -1,6 +1,6 @@
 import {selectPhysicalQuest} from './lib/quest.js';
 import {liveTracker} from './tracker.js';
-import {createEffects,playSpell} from './effects.js';
+import {createEffects,playSpell,unlockSpellAudio} from './effects.js';
 const $=id=>document.getElementById(id);
 const state={mode:'camera',stream:null,baseline:null,after:null,ratio:4/3,art:null,realm:null,quest:null,phase:'empty',busy:false,view:'placeholder',stopTracker:null,tracked:new Map(),verified:null,generated:false,callCount:0};
 const fx=createEffects($('magicCanvas'),$('worldStage'));
@@ -94,7 +94,7 @@ function useBaseline({data,ratio},source='photo'){
  $('generatedImage').removeAttribute('src');$('generatedImage').style.clipPath='';
  $('objectPair').hidden=true;$('questTitle').textContent='A world waiting to awaken';$('questDescription').textContent='Meta will discover the visible objects, invent an original realm, and create one physical-world challenge.';$('questCounter').textContent='REALITY CAPTURED';$('worldName').textContent='THE UNTOLD STORY';
  stageImage(data);if(source==='camera'&&state.stream)chooseView('camera');else chooseView('photo');
- $('proof').hidden=true;fx.reset();phase('REALITY CAPTURED');activity('Starting scene captured. Nothing has moved yet. Press Awaken to let Meta understand and transform it.');updateButtons();
+ $('proof').hidden=true;$('proofDetails').hidden=true;fx.reset();phase('REALITY CAPTURED');activity('Starting scene captured. Nothing has moved yet. Press Awaken to let Meta understand and transform it.');updateButtons();
 }
 $('captureInitial').onclick=()=>{try{useBaseline(captureLive(),'camera')}catch(e){activity(e.message,'error')}};
 $('uploadBefore').onclick=()=>$('beforeFile').click();
@@ -191,11 +191,12 @@ function evidence(verdict,reason){
  $('proofIcon').textContent=verdict==='SUCCESS'?'✦':verdict==='NO_CHANGE'?'⌛':'◇';
  $('proofStatus').textContent=verdict==='SUCCESS'?'PHYSICAL SPELL VERIFIED':verdict==='UNCERTAIN'?'EVIDENCE UNCERTAIN':verdict==='NO_CHANGE'?'NO MOVEMENT DETECTED':'MOVE NOT YET COMPLETED';
  $('proofExplanation').textContent=reason;
+ $('proofDetails').hidden=false;const r=state.verified||{};$('proofJson').textContent=JSON.stringify({model:r.model||'unavailable',observation:r.observation||'No validated observation',verdict,initialGap:r.metric?.initialGap??null,finalGap:r.metric?.finalGap??null,relativeMovement:r.metric?.relativeMovement??null,confidence:r.metric?.confidence??null,rule:'Meta observes; geometry decides. Unclear evidence cannot advance the quest.'},null,2);
 }
 async function runVerification(afterPhoto){
  if(state.phase!=='awake'||!state.quest||state.busy)return;
  if(!afterPhoto)return activity('Please capture the scene after moving the real object.','error');
- busy(true);phase('VERIFYING REALITY');activity('Muse Spark is examining both actual photographs. Independent geometry rules will decide whether the physical move is proven.');
+ state.verified=null;busy(true);phase('VERIFYING REALITY');activity('Muse Spark is examining both actual photographs. Independent geometry rules will decide whether the physical move is proven.');
  try{
  const q=state.quest,objects=state.realm.objects;
  const anc=objects.find(o=>o.id===q.anchorId);
@@ -214,7 +215,7 @@ async function runVerification(afterPhoto){
  }catch(e){evidence('UNCERTAIN','Model verification could not complete. Nothing has advanced. '+e.message);activity('Verification error: '+e.message,'error');phase('VERIFICATION UNAVAILABLE')}
  finally{busy(false);updateButtons()}
 }
-$('verify').onclick=async()=>{
+$('verify').onclick=async()=>{unlockSpellAudio();
  if(state.mode==='camera'){try{state.after=captureLive().data;await runVerification(state.after)}catch(e){activity(e.message,'error')}}
  else if(state.mode==='video'){if(state.after)await runVerification(state.after);else activity('Upload a video with a visible before-and-after action.','error')}
  else $('afterFile').click();
@@ -226,7 +227,7 @@ $('reset').onclick=()=>reset(true);
 function reset(full){
  stopTracking();
  $('missionBanner').hidden=true;state.baseline=null;state.after=null;state.art=null;state.realm=null;state.quest=null;state.phase='empty';state.generated=false;state.verified=null;state.tracked.clear();fx.reset();
- $('originalImage').removeAttribute('src');$('generatedImage').removeAttribute('src');$('trackingPoints').replaceChildren();$('objectPair').hidden=true;$('proof').hidden=true;
+ $('originalImage').removeAttribute('src');$('generatedImage').removeAttribute('src');$('trackingPoints').replaceChildren();$('objectPair').hidden=true;$('proof').hidden=true;$('proofDetails').hidden=true;
  for(const id of ['sparkRow','imageRow','samRow','verifyRow'])mark(id,false);
  $('questCounter').textContent='THE FIRST AWAKENING';$('questTitle').textContent='Your world is the gameboard.';$('questDescription').textContent='Choose a scene with three distinct objects. We will create a magical objective you can complete in real life.';$('worldName').textContent='THE UNOPENED GATE';
  if(full&&state.stream)stopCamera();

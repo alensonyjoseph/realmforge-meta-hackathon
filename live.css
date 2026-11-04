@@ -7,3 +7,8 @@
 .mission-banner strong{font:600 12px Cinzel,serif;text-align:center;color:#f1d6a2;line-height:1.4}
 .world-stage:not(.camera) .mission-banner{display:none}
 @media(max-width:760px){.mission-banner{top:13px;padding:9px 9px}.mission-banner strong{font-size:10px}.mission-banner span{font-size:7px}}
+
+.proof-details{border:1px solid #63857b78;background:#0a1c20;border-radius:9px;margin-top:11px;padding:10px 12px}
+.proof-details summary{cursor:pointer;color:#c6dec9;font-size:10px;font-weight:800;letter-spacing:.08em}
+.proof-details[open] summary{margin-bottom:12px;color:#a7ffdc}
+.proof-details pre{font:500 10px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;margin:0;white-space:pre-wrap;overflow-wrap:anywhere;color:#bad2c9}
