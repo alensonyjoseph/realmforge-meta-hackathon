@@ -90,7 +90,7 @@ async function extractVideo(file){
  }finally{URL.revokeObjectURL(url);v.removeAttribute('src');v.load()}
 }
 function useBaseline({data,ratio},source='photo'){
- stopTracking();state.baseline=data;state.ratio=ratio;state.after=null;state.realm=null;state.art=null;state.quest=null;state.verified=null;state.generated=false;state.phase='captured';
+ stopTracking();$('missionBanner').hidden=true;state.baseline=data;state.ratio=ratio;state.after=null;state.realm=null;state.art=null;state.quest=null;state.verified=null;state.generated=false;state.phase='captured';
  $('generatedImage').removeAttribute('src');$('generatedImage').style.clipPath='';
  $('objectPair').hidden=true;$('questTitle').textContent='A world waiting to awaken';$('questDescription').textContent='Meta will discover the visible objects, invent an original realm, and create one physical-world challenge.';$('questCounter').textContent='REALITY CAPTURED';$('worldName').textContent='THE UNTOLD STORY';
  stageImage(data);if(source==='camera'&&state.stream)chooseView('camera');else chooseView('photo');
@@ -117,6 +117,7 @@ async function api(endpoint,body){
  if(!r.ok)throw new Error(response.error||'Meta request returned HTTP '+r.status);
  return response;
 }
+function mapIntoStage(x,y){const stage=$('worldStage'),W=stage.clientWidth,H=stage.clientHeight,r=state.ratio||4/3;const fitW=Math.min(W,H*r),fitH=fitW/r;return {x:(W-fitW)/2+x*fitW/100,y:(H-fitH)/2+y*fitH/100}}
 function renderMarkers(){
  const container=$('trackingPoints');container.replaceChildren();
  if(!state.realm)return;
@@ -127,7 +128,7 @@ function renderMarkers(){
  if(mission&&!selected.has(obj.id))continue;
  const marker=document.createElement('div');marker.className='marker'+(obj.id===mission?.targetId?' target':'');
  const tracked=state.tracked.get(obj.id),x=tracked?.score>.72?tracked.x:(obj.box[0]+obj.box[2])/20,y=tracked?.score>.72?tracked.y:(obj.box[1]+obj.box[3])/20;
- marker.style.left=x+'%';marker.style.top=y+'%';
+ const screen=mapIntoStage(x,y);marker.style.left=screen.x+'px';marker.style.top=screen.y+'px';
  marker.innerHTML='<div class="glow-ring"></div><div class="marker-label"></div>';
  marker.querySelector('.marker-label').textContent=obj.magicalRole||obj.label;
  marker.setAttribute('aria-label',obj.label);
@@ -138,7 +139,7 @@ function renderMarkers(){
 function updateEffects(){
  if(!state.quest||!state.realm){fx.setPoints([]);return}
  const ids=[state.quest.subjectId,state.quest.targetId],points=ids.map(id=>{const o=state.realm.objects.find(x=>x.id===id),p=state.tracked.get(id);if(!o)return null;return p&&p.score>.72?{x:p.x,y:p.y}:{x:(o.box[0]+o.box[2])/20,y:(o.box[1]+o.box[3])/20}}).filter(Boolean);
- fx.setPoints(points);
+ const stage=$('worldStage'),sw=stage.clientWidth||1,sh=stage.clientHeight||1;fx.setPoints(points.map(p=>{const m=mapIntoStage(p.x,p.y);return{x:100*m.x/sw,y:100*m.y/sh}}));
 }
 function redrawMarkers(){renderMarkers();}
 function beginTracking(){
@@ -162,8 +163,8 @@ async function awaken(){
  const body={image:state.baseline,ratio:state.ratio,theme:$('theme').value};
  const [a,t]=await Promise.allSettled([api('analyze',body),api('transform',body)]);
  if(a.status==='fulfilled'){
-  const realm=a.value.scene;if(!Array.isArray(realm?.objects)||realm.objects.length<2)throw new Error('Meta could not identify distinct real objects in the scene.');
-  state.realm=realm;state.quest=selectPhysicalQuest(realm.objects);
+  const realm=a.value.scene;if(!Array.isArray(realm?.objects)||realm.objects.length<1)throw new Error('Meta could not reliably identify any visible real objects.');
+  state.realm=realm;state.quest=selectPhysicalQuest(realm.objects);$('missionBanner').hidden=!state.quest;if(state.quest)$('missionShort').textContent=state.quest.instruction;
   $('worldName').textContent=realm.worldName||'THE ENCHANTED REALM';
   mark('sparkRow',true);$('metaState').textContent='MUSE SPARK · GROUNDED SCENE';
   if(state.quest){
@@ -201,7 +202,7 @@ async function runVerification(afterPhoto){
  const result=await api('verify',{before:state.baseline,after:afterPhoto,subjectLabel:q.subjectLabel,targetLabel:q.targetLabel,anchorLabel:anc?.label||''});
  state.verified=result;mark('verifyRow',result.verdict==='SUCCESS');evidence(result.verdict,result.reason);
  if(result.verdict!=='SUCCESS'){activity('Not accepted: '+result.reason+'. Adjust the real objects and verify again.','error');phase(result.verdict==='UNCERTAIN'?'VERIFY AGAIN · UNCERTAIN':'KEEP MOVING');return}
- state.phase='verified';fx.success();playSpell(true);$('sceneFlash').classList.remove('cast');void $('sceneFlash').offsetWidth;$('sceneFlash').classList.add('cast');
+ state.phase='verified';$('missionBanner').hidden=true;fx.success();playSpell(true);$('sceneFlash').classList.remove('cast');void $('sceneFlash').offsetWidth;$('sceneFlash').classList.add('cast');
  activity('✦ VERIFIED. You physically changed the world. The independent geometry rules accepted the movement. The portal is opening…','success');$('questCounter').textContent='REAL-WORLD ACTION CONFIRMED';$('questTitle').textContent='The realm obeys you.';$('questDescription').textContent='You moved a real object. Meta visually observed the before-and-after arrangement, and independent rules authorised the spell.';
  phase('✦ PHYSICAL REALITY TRANSFORMED');
  $('originalImage').src=afterPhoto;
@@ -224,7 +225,7 @@ $('playAgain').onclick=()=>reset(false);
 $('reset').onclick=()=>reset(true);
 function reset(full){
  stopTracking();
- state.baseline=null;state.after=null;state.art=null;state.realm=null;state.quest=null;state.phase='empty';state.generated=false;state.verified=null;state.tracked.clear();fx.reset();
+ $('missionBanner').hidden=true;state.baseline=null;state.after=null;state.art=null;state.realm=null;state.quest=null;state.phase='empty';state.generated=false;state.verified=null;state.tracked.clear();fx.reset();
  $('originalImage').removeAttribute('src');$('generatedImage').removeAttribute('src');$('trackingPoints').replaceChildren();$('objectPair').hidden=true;$('proof').hidden=true;
  for(const id of ['sparkRow','imageRow','samRow','verifyRow'])mark(id,false);
  $('questCounter').textContent='THE FIRST AWAKENING';$('questTitle').textContent='Your world is the gameboard.';$('questDescription').textContent='Choose a scene with three distinct objects. We will create a magical objective you can complete in real life.';$('worldName').textContent='THE UNOPENED GATE';
@@ -244,5 +245,6 @@ $('refine').onclick=async()=>{
  }catch(e){activity('SAM refinement did not succeed: '+e.message,'error')}finally{busy(false);updateButtons()}
 };
 async function modelStatus(){try{const r=await fetch('/api/status');const j=await r.json();$('modelStatus').classList.toggle('connected',!!j.ready);$('modelStatus').innerHTML='<span class="dot"></span>'+(j.ready?'META API READY':'META KEY REQUIRED');}catch{$('modelStatus').textContent='META STATUS UNAVAILABLE'}}
+window.addEventListener('resize',()=>renderMarkers(),{passive:true});
 window.addEventListener('pagehide',()=>{if(state.stream)stopCamera();fx.destroy()});
 modelStatus();setMode('camera');reset(false);
