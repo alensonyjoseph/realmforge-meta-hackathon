@@ -1,0 +1,29 @@
+name: Verify REALMFORGE
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9e2a
+      - name: Configure Node 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Verify JavaScript syntax
+        run: |
+          node --check app.js
+          node --check api/analyze.js
+          node --check api/transform.js
+          node --check api/act.js
+          node --check api/segment.js
+          node --check lib/meta.js
+      - name: Verify deterministic behavior with mocked model responses
+        run: node --test test/unit.test.mjs
