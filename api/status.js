@@ -1,0 +1,1 @@
+export default function handler(req,res){res.setHeader('Cache-Control','no-store');res.status(200).json({ready:!!process.env.MODEL_API_KEY&&!!process.env.DEMO_ACCESS_CODE,models:['muse-spark-1.3','muse-image-1.0'],sam:'planned'})}
