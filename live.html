@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080d13"><meta name="description" content="Real objects become the controller. Turn your surroundings into a cinematic, responsive fantasy world with Meta AI."><title>REALMFORGE LIVE — Reality Is the Controller</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="./live.css"></head><body>
+<div class="grain" aria-hidden="true"></div><div class="aura aura-one" aria-hidden="true"></div><div class="aura aura-two" aria-hidden="true"></div>
+<div class="app">
+<header class="topbar">
+ <div class="brand"><span class="emblem">✦</span><div><strong>REALMFORGE</strong><span>LIVE · REALITY IS THE CONTROLLER</span></div></div>
+ <div class="topright"><span class="hack">META GLOBAL AI HACKATHON · INDIE</span><span class="api-pill" id="modelStatus"><span class="dot"></span>CONNECTING</span></div>
+</header>
+<div class="intro"><div class="overline">A NEW KIND OF PLAY</div><h1>Don't just enter a world.<br><em>Change your own.</em></h1><p>Point your camera at everyday objects. Meta AI transforms your surroundings into an enchanted realm. Move the real objects—and watch the magic respond.</p></div>
+<div class="workbench">
+<section class="world-panel">
+<div class="world-header"><div class="world-brand"><span class="diamond">◇</span> YOUR WORLD <span class="separator">/</span> <span id="worldName">THE UNOPENED GATE</span></div><div id="phaseLabel" class="phase-pill">AWAITING REALITY</div></div>
+<div class="world-stage" id="worldStage">
+<video id="camera" autoplay playsinline muted></video>
+<img id="originalImage" alt="Captured real world">
+<img id="generatedImage" alt="Meta Muse Image fantasy transformation">
+<div class="stage-placeholder" id="placeholder"><div class="placeholder-sigil"><div class="sigil-ring ring-outer"></div><div class="sigil-ring ring-inner"></div><span>✧</span></div><h2>Every object hides a story.</h2><p>Open the camera or choose a photo. Your ordinary world is about to become extraordinary.</p></div>
+<canvas id="magicCanvas" aria-hidden="true"></canvas>
+<div class="scan-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="tracking-points" id="trackingPoints" aria-live="off"></div>
+<div class="comparison-label label-real" id="realLabel">REAL WORLD</div><div class="comparison-label label-magic" id="magicLabel">ENCHANTED REALM</div>
+<div id="sceneFlash" class="scene-flash" aria-hidden="true"></div>
+<div class="state-toast" id="stageToast">✦ THE PORTAL AWAITS</div>
+<input type="range" id="compare" min="0" max="100" value="0" aria-label="Reveal original photograph versus enchanted world">
+</div>
+<div class="world-bottom"><div class="camera-detail"><span class="sensor-dot" id="cameraDot"></span><span id="cameraState">CAMERA OFFLINE</span></div><div class="camera-detail"><span>✧</span><span id="metaState">MUSE SPARK + MUSE IMAGE</span></div><button type="button" id="viewToggle" class="icon-button" title="Toggle reality and fantasy" disabled>◐ <span>REALM / REALITY</span></button></div>
+</section>
+<aside class="command-panel">
+<section class="quest-card" id="questCard"><div class="card-eyebrow">◈ YOUR LIVING QUEST</div><div class="quest-counter" id="questCounter">THE FIRST AWAKENING</div><h2 id="questTitle">Your world is the gameboard.</h2><p class="quest-lead" id="questDescription">Choose a scene with three distinct objects. We'll reveal a magical objective that can only be completed in the physical world.</p>
+<div class="object-pair" id="objectPair" hidden><div class="object-token"><span>✧</span><strong id="subjectName">OBJECT</strong><small>MOVE THIS</small></div><div class="connection-arrow">⟶</div><div class="object-token"><span>◇</span><strong id="targetName">TARGET</strong><small>PLACE BESIDE</small></div></div>
+<div class="quest-feed" id="activity" role="status" aria-live="polite">Ready to transform the ordinary.</div>
+<div class="action-stack"><button type="button" id="captureInitial" class="btn primary" disabled><span>◎</span> CAPTURE STARTING SCENE</button><button type="button" id="awaken" class="btn primary" disabled><span>✦</span> AWAKEN REALITY</button><button type="button" id="verify" class="btn primary" disabled><span>◈</span> VERIFY PHYSICAL MOVE</button><button type="button" id="takeAfter" class="btn outline" hidden><span>▣</span> CHOOSE AFTER PHOTO</button><button type="button" id="playAgain" class="btn outline" hidden><span>↻</span> BEGIN A NEW REALM</button></div>
+<div class="proof-readout" id="proof" hidden><span id="proofIcon">◎</span><div><strong id="proofStatus">Awaiting verification</strong><p id="proofExplanation">The world will answer when the movement is verified.</p></div></div>
+</section>
+<section class="setup-card">
+<div class="card-eyebrow">BUILD YOUR REALM</div>
+<div class="mode-switch" role="tablist" aria-label="Capture mode"><button type="button" class="mode active" role="tab" aria-selected="true" data-mode="camera" id="modeCamera">◉ LIVE CAMERA</button><button type="button" class="mode" role="tab" aria-selected="false" data-mode="photo" id="modePhoto">▣ PHOTO</button><button type="button" class="mode" role="tab" aria-selected="false" data-mode="video" id="modeVideo">▶ VIDEO</button></div>
+<p class="mode-note" id="modeNote">Camera stays open. Magic overlays update locally; Meta checks real objects when you press Verify.</p>
+<div class="source-controls"><button type="button" id="startCamera" class="btn subtle">◉ START CAMERA</button><button type="button" id="uploadBefore" class="btn subtle" hidden>▣ CHOOSE SCENE</button><button type="button" id="uploadVideo" class="btn subtle" hidden>▶ SELECT SHORT CLIP</button></div>
+<input type="file" id="beforeFile" accept="image/jpeg,image/png,image/webp" hidden><input type="file" id="afterFile" accept="image/jpeg,image/png,image/webp" capture="environment" hidden><input type="file" id="videoFile" accept="video/*" hidden>
+<label for="theme" class="field-label">FANTASY REALM</label><select id="theme" class="field"><option value="ancient arcane library">THE ARCANE LIBRARY</option><option value="moonlit elven sanctuary">MOONLIT SANCTUARY</option><option value="clockwork celestial observatory">CLOCKWORK OBSERVATORY</option><option value="enchanted underwater palace">THE DROWNED PALACE</option></select>
+<label for="access" class="field-label">PRIVATE DEMO ACCESS</label><input id="access" type="password" class="field" autocomplete="off" placeholder="Enter your access code"><div class="fineprint">Protects paid Meta inference. No automatic periodic model calls.</div>
+<div class="mini-actions"><button type="button" id="refine" class="small-btn" disabled>◎ REFINE WITH SAM 3.1</button><button type="button" id="reset" class="small-btn">↺ RESET</button></div>
+</section>
+<section class="trace-card"><div class="card-eyebrow">THE INTELLIGENCE BEHIND THE MAGIC</div><div class="trace-item" id="sparkRow"><span class="trace-light"></span> MUSE SPARK <small>VISUAL REASONING</small></div><div class="trace-item" id="imageRow"><span class="trace-light"></span> MUSE IMAGE <small>CINEMATIC KEYFRAMES</small></div><div class="trace-item" id="samRow"><span class="trace-light"></span> SAM 3.1 <small>OPTIONAL SEGMENTATION</small></div><div class="trace-item" id="verifyRow"><span class="trace-light"></span> INDEPENDENT VERIFIER <small>FAIL-CLOSED RULES</small></div><div class="trace-footer">Meta proposes and perceives. Deterministic rules decide. Live camera effects render locally.</div></section>
+</aside></div>
+<div class="bottom-bar"><div class="principle">✦ YOUR REALITY IS THE RAW MATERIAL.</div><div class="legal">A photo-anchored fantasy interaction, not tracked native 3D AR. Your images reach Meta only when you explicitly request model analysis.</div></div>
+</div><script type="module" src="./live.js"></script></body></html>

@@ -1,13 +1,13 @@
-{
-  "name": "realmforge-meta-worlds",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "check": "node --check app.js && node --check lib/meta.js && node --check api/analyze.js && node --check api/act.js && node --check api/transform.js && node --check api/segment.js && node --check api/status.js",
-    "start": "npx serve -l 4173 ."
-  },
-  "engines": {
-    "node": ">=20"
-  }
+﻿{
+    "name":  "realmforge-meta-worlds",
+    "version":  "0.1.0",
+    "private":  true,
+    "type":  "module",
+    "scripts":  {
+                    "check":  "node --check live.js \u0026\u0026 node --check tracker.js \u0026\u0026 node --check effects.js \u0026\u0026 node --check api/verify.js \u0026\u0026 node --check lib/geometry.js \u0026\u0026 node --check lib/quest.js \u0026\u0026 node --test test/physical.test.mjs test/unit.test.mjs",
+                    "start":  "npx serve -l 4173 ."
+                },
+    "engines":  {
+                    "node":  "\u003e=20"
+                }
 }

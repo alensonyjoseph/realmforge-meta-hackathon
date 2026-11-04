@@ -1,4 +1,4 @@
-name: Verify REALMFORGE
+name: Verify REALMFORGE LIVE
 on:
   push:
     branches: [main]
@@ -17,13 +17,8 @@ jobs:
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
-      - name: Verify JavaScript syntax
+      - name: Verify all application modules
         run: |
-          node --check app.js
-          node --check api/analyze.js
-          node --check api/transform.js
-          node --check api/act.js
-          node --check api/segment.js
-          node --check lib/meta.js
-      - name: Verify deterministic behavior with mocked model responses
-        run: node --test test/unit.test.mjs
+          for f in app.js live.js tracker.js effects.js api/*.js lib/*.js; do node --check "$f"; done
+      - name: Run deterministic tests with mocked Meta responses
+        run: node --test test/*.test.mjs
