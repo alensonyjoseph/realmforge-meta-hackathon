@@ -1,61 +1,92 @@
-# REALMFORGE — One photograph. An impossible world.
+# REALMFORGE LIVE
+### Reality is the controller.
 
-**Meta Global AI Developer Hackathon 2026 · Indie Developer · Build for Your World**
+**2026 Meta Global AI Developer Hackathon · Indie Developer**
 
-[Live application](https://realmforge-meta-worlds.vercel.app/) · Original code and development history in this public repository.
+[Open the live app](https://realmforge-meta-worlds.vercel.app/) · [Source repository](https://github.com/alensonyjoseph/realmforge-meta-hackathon)
 
-REALMFORGE aims to turn an ordinary tabletop photo into an original, playable fantasy quest. It uses **Meta Muse Spark 1.3** for multimodal understanding, a structured object scene graph, game objectives and natural-language action interpretation; **Muse Image 1.0** reimagines the exact photo as a cinematic magical realm; and an **optional SAM 3.1** step attempts to refine up to three real-object locations using segmentation. A deterministic browser game engine handles object selection, quest transitions and win conditions. Models propose; deterministic code validates progression.
+**Point your camera at ordinary objects. Meta AI turns them into a cinematic fantasy realm. Move the real objects, and the realm reacts—only when the movement can be independently verified.**
 
-This is a **photo-grounded interactive image** experience. It is not 3D mesh generation, markerless tracked AR, ARCore or ARKit. No franchise or copyrighted character designs are used.
+REALMFORGE LIVE is a mobile-first experiment in **physically grounded generative play**. Instead of using a photo to generate an unrelated image, it makes a user’s actual surroundings part of the game.
 
-## The core demonstration
+## The 60-second experience
 
-1. Upload a real desk/table photograph containing at least three distinct objects.
-2. Pick an original fantasy setting and click **Awaken this world**.
-3. Muse Spark identifies visible objects and creates an original three-step quest represented as structured JSON. Muse Image performs input-grounded fantasy image editing.
-4. Compare the original photograph and generated artwork with the reveal slider. Click the object hotspots to progress through the quest. Invalid actions cannot advance the state machine.
-5. Optionally click **Refine targets with SAM 3.1** to request live segmentation and improve target locations. This is separate from the initial generation to reduce cost.
-6. Type or speak an action. Simple object names are matched deterministically; more complex text uses a constrained Muse Spark action interpreter.
+1. Place a cup, book and keys on a tabletop with enough space between them. Open **Live Camera**; alternatively choose **Photo** or upload a **short Video**.
+2. Capture the initial real-world scene and select an original fantasy theme.
+3. Press **Awaken Reality**. Meta **Muse Spark 1.3** grounds named objects in image coordinates and generates a scene/quest. **Muse Image 1.0** reimagines that same photo as a fantasy keyframe.
+4. REALMFORGE selects a safe, movable object and a distinct target—e.g. move the keys beside the book. The **actual physical objects** are the control surface.
+5. Physically move the object. With camera still open, press **Verify Physical Move**; with Photo mode, supply a second photo; with Video mode, the app extracts first/last frames locally.
+6. Muse Spark observes both photographs; the independent **fail-closed geometry verifier** evaluates object visibility, object identity, camera stability, scale, relative displacement and final proximity. It can output **SUCCESS / NOT_YET / NO_CHANGE / UNCERTAIN**. The model alone cannot authorise a game transition.
+7. On verified success, local cinematic effects activate. Muse Image creates a **new post-action magical keyframe** grounded in the updated real photograph.
 
-## Technology and traceability
+The photographic keyframes and live overlays are **not continuous photorealistic video synthesis**. The live camera remains real camera footage; particles and visual tracking render locally in the browser. There is no claim of full tracked 3D AR/SLAM or persistent 3D mesh generation.
 
-| Feature | Implementation |
-|---|---|
-| Multimodal scene understanding | api/analyze.js → muse-spark-1.3 |
-| Grounded fantasy image editing | api/transform.js → muse-image-1.0 |
-| Spatial segmentation refinement | api/segment.js → sam-3.1 (optional, live output not yet validated) |
-| Natural-language action interpretation | api/act.js → muse-spark-1.3 |
-| Deterministic game rules | app.js |
-| Private model-key handling, request bounds | lib/meta.js |
-| Interface | index.html + app.js; Chrome/mobile responsive |
-| CI | .github/workflows/verify.yml — five tests with mocked model output |
+## Three user modes
 
-**Important verification boundary:** the CI tests do not invoke live Meta models. Actual image generation and SAM output must be tested independently before presenting them as working competition results. One initial live Muse Spark test yielded empty output; a subsequent token-budget adjustment is deployed but not yet confirmed live.
+| Mode | Input | Physical-action verification |
+| --- | --- | --- |
+| **Live Camera** | Web camera stream, captured starting frame | Capture a new frame after physically moving an object |
+| **Photo** | Initial JPG, PNG or WebP | Supply a separate after-photo |
+| **Video** | A 2–35 second local video | Extract and compare frames near start/end, **without uploading the whole video** |
 
-## Local development and deployment
+The local visual-only tracker in \`tracker.js\` helps animated highlights follow image features across camera frames. It does **not** decide whether a physical action happened. Only the server-side independent verifier can authorise the in-game spell.
 
-This project requires Node.js 20+ for serverless development. For Vercel deployment, set the environment variables **MODEL_API_KEY** and **DEMO_ACCESS_CODE** as protected server-side secrets. Never commit real credentials, an access code, user photos, or production billing details. Run `npm run check` for syntax; `node --test test/unit.test.mjs` for the deterministic mock API tests.
+## Real Meta technology, not just during development
 
-The deployed experience deliberately refuses Meta generation until secrets are configured. Real user uploads go to Meta only when the user explicitly requests generation. Voice input uses the browser's native speech API, **not Muse Voice Transcribe**.
+| Model/system | Contribution |
+| --- | --- |
+| **Muse Spark 1.3** | Vision-grounded object identities, normalized boxes, original realm/quest generation; before/after physical scene observation |
+| **Muse Image 1.0** | Two creative keyframes: initial and post-verified-action photo edits |
+| **SAM 3.1** | Optional text-prompt segmentation to refine up to 3 object locations |
+| **Independent engine** | Exact physical movement and camera-stability qualifications; rejects insufficient evidence |
+| **Local browser** | Camera, image/video extraction, image-comparison UI, particle animation, camera feature tracker, Web Audio |
 
-## Responsible demonstration and costs
+## Repository map
 
-The hackathon participant guide requires the public repo, public live product, authentic **three-minute demonstration**, and clear attribution of newly built work. The model endpoints use a strong shared demonstration code, size limits and server-side access checks; this is a temporary protection, **not a hard spending limit**. Meta's spending alerts do not prevent charges. A production release requires account-based authentication and persistent quotas.
+\`\`\`
+index.html                  # LIVE entry point, mobile-first design
+live.css / live.js          # App UI, camera/photo/video, physical quest flow
+effects.js / tracker.js     # Local animated magic and visual-only tracking
+api/analyze.js              # Muse Spark multimodal object + quest generation
+api/verify.js               # Muse Spark observes the original before/after scenes
+api/transform.js            # Muse Image: original and post-action fantasy keyframes
+api/segment.js              # Optional SAM 3.1 segmentation
+api/act.js                  # Legacy constrained spoken command interpreter
+lib/geometry.js             # Deterministic, fail-closed physical verifier
+lib/quest.js                # Select a plausible safe movable object and target
+lib/meta.js                 # Secret protection, input validation, timeouts
+classic.html / app.js       # Preserved earlier image-click experience
+test/physical.test.mjs      # Actual deterministic verification tests, mocked observation
+test/unit.test.mjs          # Model contract and input validation tests
+.github/workflows/verify.yml # GitHub CI syntax + all 13 automated tests
+\`\`\`
 
-The public web application is not equivalent to unrestricted access to billable model endpoints. Reviewers need a private demo code, or a verified cached walkthrough and a request for authorised live access.
+## Engineering decisions
 
-## Current status (November 4, 2026)
+**False success prevention.** The model’s JSON observations are treated as fallible measurements. It never directly declares whether the player succeeded; the deterministic verifier does so using normalized object bounding boxes and camera-consistency constraints.
 
-- [x] New public GitHub repository and Git history.
-- [x] Working responsive interface deployed to Vercel.
-- [x] Basic browser smoke tests on desktop and mobile.
-- [x] Meta Model API secrets configured on production.
-- [x] Five CI tests passed using mocked model responses.
-- [ ] Successful live photo → Muse Spark scene graph → Muse Image editing test.
-- [ ] Successful optional live SAM 3.1 segmentation test.
-- [ ] Verify generated spatial targets against an actual photograph.
-- [ ] Capture and publish an authentic ≤3-minute demo video.
-- [ ] Confirm reviewer access to live Meta generation.
-- [ ] Submit project through Cerebral Valley by 9 PM ET November 4.
+**Object selection.** The quest generator selects a familiar movable item, a separate nearby-able target, and a stationary reference when available. It refuses to invent a physical mission when the captured scene does not provide suitable distinct objects.
 
-All submitted claims should distinguish verified implementation from planned or unverified capability. The game does not include code or confidential intellectual property from any unrelated projects.
+**Automatic cost protection.** The app only calls Meta when the user clicks an explicit action: initial Awakening, physical Verification, optional SAM refinement and a second image generation **only after a verified win**. Browser-side session limit: 12 model requests. The deployment additionally requires a long private access code; server-side secrets are not sent to clients. **Important:** a shared demo access code and browser-side limit are not a durable account-level quota, and Meta spending alerts are not hard spending caps. Never make this a general public paid-service launch without production authentication and persistent quotas.
+
+**Data minimization.** Camera preview and input video stay local. A resized image is sent to Meta only after explicit user-initiated operations. Browser storage contains the demo access code for convenience (per session), not the photos. The application does not intentionally persist images on its own servers.
+
+## Run and verify
+
+- Use Node 20+ with Vercel. In Vercel production secret settings configure \`MODEL_API_KEY\` and \`DEMO_ACCESS_CODE\`.
+- \`npm run check\` checks application syntax and deterministic tests.
+- \`node --test test/*.test.mjs\` runs test cases without spending model credits.
+- Open \`https://realmforge-meta-worlds.vercel.app/\` and run the full photo-to-physical-action workflow with your **actual** desk scene.
+- A real mobile camera and visible physical object motion are required for final end-to-end evidence. Mocked unit tests are not proof of real model recognition.
+- Share reviewer/demo access code **privately**, not in public GitHub or README.
+
+## Verification record
+
+- ✅ Deployed responsive application, mobile and desktop browser checks.
+- ✅ 13 deterministic model-contract and physical-verification tests passed.
+- ✅ Public source repository and GitHub Actions workflow verified.
+- ✅ Real Meta Muse Image + scene generation was demonstrated in the previous REALMFORGE prototype using a cup photograph.
+- ⏳ **The new live physical movement loop has not yet been independently demonstrated with two genuine photos and a successful production verifier result.** Do not claim it has until the live test passes.
+- ⏳ A genuine, accessible three-minute demo video and the final competition submission are separate requirements.
+
+The product concept and all visuals are original fantasy work. No film franchise characters or unrelated proprietary project source is included. **This README describes implemented functions and notes which evidence is still unverified.**
