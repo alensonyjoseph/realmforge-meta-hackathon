@@ -1,22 +1,34 @@
-# REALMFORGE LIVE — Demonstration evidence
+# REALMFORGE LIVE — Test and Demo Evidence
 
-## Video
-[Watch the 2-minute 38-second demo](./demo.mp4)
+**Competition:** Meta Global AI Developer Hackathon 2026  
+**Track:** Indie Developer / Build for Your World  
+**Demo:** [Watch 2:55](./demo.mp4)
 
-This video was created for the Meta Global AI Developer Hackathon 2026.
+## Independently exercised production paths
 
-## Verified production calls
-- Muse Spark 1.3 successfully identified a laptop, cup, smartphone, and notebook in a photographed real tabletop scene from a licensed Coverr video.
-- Muse Image 1.0 successfully generated an original fantasy keyframe using the same photographed scene.
-- The production /api/verify endpoint returned NO_CHANGE for two identical real frames; model-observed relative movement was zero.
-- The public app and 14 automated tests were checked on 5 November 2026.
+1. **Muse Spark 1.3 scene understanding.** A genuine photographed tabletop frame, from a licensed real-world video, was sent to the deployed `/api/analyze` endpoint. Meta returned HTTP 200, identifying a laptop, cup, smartphone and notebook and generating **The Pale Archive of Stillwood** with coordinate-grounded object identities.
+2. **Muse Image 1.0 generation.** The deployed `/api/transform` endpoint returned HTTP 200 and an original, retrievable fantasy image grounded in the same photo.
+3. **No-change verification.** The deployed `/api/verify` endpoint received identical real tabletop before/after images. It returned `NO_CHANGE`, model-observed confidence **0.92**, and relativeMovement **0**.
+4. **Automation.** The repository's syntax, model-contract and geometric tests passed **14/14**.
+5. **Web delivery.** The public GitHub repository, Vercel app and its status endpoint were accessible during pre-submission verification.
 
-## Honest limitations
-- The camera was privacy-blocked on the development laptop, so a live developer-performed physical tabletop movement was not recorded.
-- The UI walkthrough in this video replays **genuine, previously recorded Meta Model API responses** for repeatable capture; it is not proof of a successful live before/after physical action.
-- A successful real-world physical movement-to-magic verification remains an open validation requirement. Do not present mocked unit-test success as a real physical result.
-- Live camera preview and original browser visual effects are not continuous AI-synthesized 3D AR.
+## How to interpret the video
 
-## Source footage
-- Licensed real tabletop example: Coverr, *Getting ready to work* (https://coverr.co/videos/getting-ready-to-work-oqlx54cmzf). Listed by Coverr as **Free Commercial Rights**.
-- Muse Image output and app source are from this project.
+The 2:55 narrated demonstration combines:
+
+- A real tabletop recording from [Coverr — Getting Ready to Work](https://coverr.co/videos/getting-ready-to-work-oqlx54cmzf), credited for its commercially reusable footage.
+- Real, previously recorded **Muse Spark** observations and the actual **Muse Image** fantasy result from production calls.
+- A screen-captured REALMFORGE frontend walkthrough using those recorded model responses to reproduce the visual sequence consistently.
+- A summary of the independent geometric verifier and the verified no-change result.
+
+The project implements a positive physical-transition path and tests it deterministically. The recorded demonstration is **not presented as a live positive movement field test**. Its demonstrated live model outcomes are the ones listed above.
+
+## Design and claims
+
+The application creates cinematic **still-image keyframes** and local effects over a real camera feed. It does not claim continuous AI-generated video, full SLAM tracking or a 3D mesh. Muse Spark's object boxes remain model observations; independent geometry qualifies their suitability for a state transition.
+
+The browser and server require a private demo access code for paid model calls. Reviewers can watch the public video and inspect the source without that code; interactive inference requires private credentials.
+
+## Source
+
+[Repository](https://github.com/alensonyjoseph/realmforge-meta-hackathon) · [Live app](https://realmforge-meta-worlds.vercel.app/)

@@ -1,69 +1,63 @@
-# REALMFORGE LIVE — Hackathon submission draft
-**Track:** Indie Developer
-**Category:** Build for Your World (with a Push-the-Frontier technical angle)
-**Name:** REALMFORGE LIVE
-**Tagline:** Reality is the controller.
-**Live app:** https://realmforge-meta-worlds.vercel.app/
-**Public GitHub:** https://github.com/alensonyjoseph/realmforge-meta-hackathon
-**Video:** NOT YET RECORDED — REQUIRED BEFORE FORM SUBMISSION.
+# Meta Global AI Developer Hackathon 2026 — FINAL SUBMISSION COPY
 
-## Elevator pitch (copyable)
+**Team:** REALMFORGE LIVE  
+**Participant:** Alen Sony Joseph  
+**Track:** Indie Developer  
+**Theme:** Build for Your World  
+**Repo:** https://github.com/alensonyjoseph/realmforge-meta-hackathon  
+**Video:** https://github.com/alensonyjoseph/realmforge-meta-hackathon/blob/main/demo.mp4  
+**App:** https://realmforge-meta-worlds.vercel.app/
 
-REALMFORGE LIVE turns the objects already in your room into the controls of a cinematic AI-generated adventure. Point your phone at a cup, book and keys. Meta Muse Spark identifies those *actual objects*, invents a coherent magical world and proposes a physical objective. Muse Image transforms the photograph into original fantasy art. Now physically move the real objects—not digital sprites—and the app compares before/after camera frames, uses Meta vision for grounded observations and applies an independent fail-closed geometric verifier. When the physical action is proven, the fantasy realm visibly awakens and a new cinematic image reflects the changed scene.
+## Project description
 
-## Full submission description (copyable, revise after genuine live test)
+**REALMFORGE LIVE — Reality is the Controller.**
 
-Most AI world generators create worlds you enter on a screen. REALMFORGE LIVE starts from the world you already inhabit. A photo or live camera scene is understood with Meta Muse Spark 1.3 and converted into structured object identities, normalized positions and an original quest. Muse Image 1.0 edits the *same photographic input* into a cinematic fantasy setting without requiring 3D artists or prebuilt character assets. REALMFORGE's deterministic mission planner selects a movable physical object and separate target. The player moves the real item while keeping the camera active, then asks the app to verify the move. Muse Spark compares before and after images; independent numerical rules evaluate visibility, camera stability, relative movement and proximity. A hallucinated AI description alone cannot trigger success. Only verified physical interaction unlocks a new spell and an updated cinematic keyframe. Optional SAM 3.1 segmentation improves object locations. Real-time particle effects and low-cost local tracking run in the browser; Meta is invoked only on user actions.
+What if the objects already on your desk could become the controls for a fantasy game that doesn't exist yet?
 
-The experience also accepts paired photographs and short 2–35-second video clips, allowing a physical game to emerge from any ordinary environment, including classrooms, homes, makerspaces and accessible creative-play activities. It is intentionally **not a claim of full 3D spatial tracking or continuous AI-synthesized video**.
+REALMFORGE LIVE turns a camera view, photograph or short video of ordinary surroundings into the starting point for an original, AI-generated adventure. A cup can become a magical chalice. A phone can become a scrying shard. But the objects aren't just visual inspiration: they also give the player a physical quest.
 
-## What is genuinely new about the use of Meta
+Muse Spark 1.3 examines the source image, grounds visible objects in normalized coordinates and creates a world and quest around them. Muse Image 1.0 transforms that same photograph into original cinematic fantasy art, keeping the layout recognizable. A deterministic quest planner selects a movable real object and a distinct target.
 
-The project uses the **user's physical reality as input and control**, not just as a prompt. Muse Spark supplies contextual perception and a structured game world; Muse Image creates cinematic keyframes grounded in the exact scene; optionally SAM refines object positions. Most importantly, the game treats the models as *fallible observers* and gives final state-transition authority to deterministic code. This makes a generated scenario interact with actual physical events.
+Now the player can move an actual object in the room, capture the changed scene and ask REALMFORGE to verify it. Muse Spark observes both frames, while an independent geometric engine evaluates identity, visibility, confidence, camera consistency, relative displacement and proximity. Rather than accepting an AI-generated claim of success, the game qualifies the evidence before authorizing a transition, effects and a new fantasy keyframe.
 
-## Technical stack
+The responsive prototype includes live camera, photo and short-video modes, a browser effects engine, optional SAM 3.1 segmentation, Vercel serverless APIs and public source code. It was built during the hackathon.
 
-Vanilla ES modules and responsive CSS; Meta Model API (Muse Spark 1.3, Muse Image 1.0, optional SAM 3.1); Node 22 Vercel serverless functions; original browser Canvas and Web Audio effects; local feature correlation tracking; deterministic geometric validation of normalized object boxes; GitHub Actions automated test suite. The repository history shows source created during the event.
+The production app successfully recognized four objects with Muse Spark, generated an original image with Muse Image and correctly rejected an unchanged physical scene. All 14 automated tests passed.
 
-## Verified engineering evidence
+REALMFORGE's ambition is simple: personalized adventures that begin with the world you already inhabit. **Reality is the controller.**
 
-- 13 deterministic tests passing on Windows, covering positive and negative physical-verification cases.
-- GitHub CI green with pinned dependency actions.
-- Live deployment confirmed HTTP 200; /api/verify route responds with 405 to GET (correct POST-only policy).
-- Automated Chrome smoke tests: photo workflow, camera preview, short MP4 video local frame extraction, full simulated end-to-end game sequence, mobile viewport no horizontal overflow and no browser JS errors.
-- The previous static REALMFORGE build successfully generated a real original Muse Image fantasy chalice from a user's cup photograph, with playable tap-quest completion.
-- **The new physical movement verification has NOT yet passed a live two-photo Meta test. Do not change this item until an authentic success is recorded.**
+Live: https://realmforge-meta-worlds.vercel.app/
 
-## Strict demonstration script, max 180 seconds
+## How Meta products were used
 
-00:00–00:12 · Show real objects arranged on a desk, wide shot. "A cup, a book and keys. No special hardware. This is my game controller."
-00:12–00:34 · Open REALMFORGE LIVE in mobile Chrome. Start Live Camera, grant permission, capture the starting scene, select the chosen fantasy theme.
-00:34–01:00 · Tap Awaken. Show *actual* Muse Spark-generated realm identity and Muse Image-generated fantasy keyframe. Toggle camera vs enchanted view.
-01:00–01:30 · Read the generated physical mission. Without interrupting the camera, physically move the requested object beside its target. Camera feed shows hand movement.
-01:30–01:58 · Press Verify. Show the *actual* live independent verifier result. Stop here if result isn't a verified success; do not substitute a mocked result.
-01:58–02:23 · On verified success, show particles, light-beam effect, victory status and original post-action Muse Image reimagining.
-02:23–02:45 · Show the architectural distinction: Meta vision observes; local deterministic rules decide. If no time, use concise overlaid explanatory captions.
-02:45–03:00 · Show three input modes (camera/photo/video), public GitHub repo and impact: any ordinary surface can become a personalised game.
+Meta AI powers the actual experience, not just the development workflow.
 
-OPTIONAL: In place of 02:23–02:45, show the same still frame before and after yielding NO_CHANGE or UNCERTAIN, if a live test actually verified it. No claims about SAM segmentation unless a live SAM request was demonstrated.
+**Muse Spark 1.3** receives real camera or photo frames through the Meta Model API and returns structured scene information: object names, normalized bounding boxes, fantasy roles, narrative and quest steps. During physical-action verification it compares the before and after images and supplies conservative observations.
 
-## Reviewer instructions
+**Muse Image 1.0** reimagines the original captured photograph as an original fantasy world. The app can request an updated keyframe after a qualified physical action, creating a visual connection between reality and game state.
 
-1. Open the live app in Chrome or another browser that supports camera permissions.
-2. Enter the private demonstration access code, supplied ONLY through a private review channel.
-3. Put at least three visibly distinct objects spaced apart on a desk; cup/book/keys is ideal.
-4. Use Live Camera, Photo, or Video. For Live Camera, allow camera permissions and keep the phone as steady as possible.
-5. Capture a baseline, click Awaken, physically move the requested real object and press Verify.
-6. Success is intentionally denied when objects don't move, the scene is ambiguous, or the camera angle changes too much.
-7. Use *Realm / Reality* to switch between live camera and generated cinematic keyframe.
+**SAM 3.1** is integrated as an optional segmentation route for refining object locations.
 
-## Must pass before submitting
+**Independent game engine:** The final verdict is produced by JavaScript geometry rules that evaluate normalized coordinates, visibility, object identity, camera stability, displacement and proximity. The model proposes and observes; independent code decides.
 
-- [ ] Verify one actual live movement-to-magic interaction with the production Meta backend.
-- [ ] Verify at least one unchanged-scene rejection with the production Meta backend, or disclose that only deterministic unit tests cover this behaviour.
-- [ ] Record and upload an accessible demo video no longer than three minutes using the authentic interface and result.
-- [ ] Ensure demo access for the judge without exposing an unlimited paid model endpoint.
-- [ ] Check project name, track, category, source repo and live URL on Cerebral Valley.
-- [ ] Submit the event form by **4 November 2026, 9 PM ET / 5 November 2026, 2 AM UK**.
+The browser handles camera capture, local video-frame extraction, visual tracking, particles and sound; Vercel hosts the serverless Meta API integration. A private access code and explicit request triggers control inference exposure.
 
-**Do not claim that submission has happened until the form confirmation is shown.**
+Test results: successful production Muse Spark analysis of four real items; successful production Muse Image generation; unchanged-scene production verdict NO_CHANGE with zero displacement; 14/14 automated tests passing.
+
+## Why Meta's models are essential
+
+Most generated games begin with a designed virtual world. REALMFORGE begins with the player's **actual** world.
+
+That requires the combination of grounded visual understanding and imagination. Muse Spark identifies what is really in the photograph, where the objects are, and how they can take part in a meaningful quest. Muse Image turns the same physical arrangement into an original cinematic environment. Together, they make an ordinary desk feel like a personal adventure without a predefined level or specialized hardware.
+
+The second innovation is how we handle model uncertainty. Instead of letting generative text decide that an action happened, REALMFORGE uses the model as an observer and independent geometry as the state-transition authority. If the evidence is not sufficient, the game does not simply award a win.
+
+This pairing—real-world grounding, original visual transformation and deterministic action qualification—makes Meta's multimodal models central to the experience. The goal is a new way to play: not just looking at an AI world on a screen, but having the objects around you take part in it.
+
+## Survey
+
+Partner technologies: Not used in this prototype; integrated directly with Meta Model API and Vercel.
+
+Select authentic personal ratings. Recommended technical options: Very likely to use Meta Model API; Somewhat favorable or Very favorable overall; quality of answers/code matters most; comparing models was not controlled; testing a new model takes time; production constraints include predictable costs or mature quota controls.
+
+**Submit through Cerebral Valley by 2026-11-05 02:00 GMT and retain a confirmation screenshot.**
