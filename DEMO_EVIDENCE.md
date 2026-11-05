@@ -2,7 +2,7 @@
 
 **Competition:** Meta Global AI Developer Hackathon 2026  
 **Track:** Indie Developer / Build for Your World  
-**Demo:** [Watch 2:55](./demo.mp4)
+**Demo:** [Watch 2:42](./demo.mp4)
 
 ## Independently exercised production paths
 
@@ -14,7 +14,7 @@
 
 ## How to interpret the video
 
-The 2:55 narrated demonstration combines:
+The 2:42 narrated demonstration combines:
 
 - A real tabletop recording from [Coverr — Getting Ready to Work](https://coverr.co/videos/getting-ready-to-work-oqlx54cmzf), credited for its commercially reusable footage.
 - Real, previously recorded **Muse Spark** observations and the actual **Muse Image** fantasy result from production calls.
