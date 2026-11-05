@@ -4,7 +4,7 @@
 
 **Meta Global AI Developer Hackathon 2026 · Indie Developer · Build for Your World**
 
-[**Watch the 2:55 demo**](./demo.mp4) · [**Try the live app**](https://realmforge-meta-worlds.vercel.app/) · [**Technical evidence**](./DEMO_EVIDENCE.md)
+[**Watch the 2:42 demo**](./demo.mp4) · [**Try the live app**](https://realmforge-meta-worlds.vercel.app/) · [**Technical evidence**](./DEMO_EVIDENCE.md)
 
 **What if a cup, a book and a phone could become the controls for a fantasy game that has never existed before?**
 
@@ -42,7 +42,7 @@ The prototype uses Vercel Node serverless functions, vanilla JavaScript, browser
 - A production before/after request containing an unchanged real scene correctly returned `NO_CHANGE` with relative movement `0`.
 - The source is public and the web app is deployed at **https://realmforge-meta-worlds.vercel.app/**.
 
-The 2:55 video includes a real-world tabletop source clip, actual saved Meta Model API outputs, and a captured browser walkthrough. The walkthrough replays the recorded model outputs for a predictable demo recording. These tests exercise particular scenarios rather than establishing a universal real-world tracking accuracy rate; see [DEMO_EVIDENCE.md](./DEMO_EVIDENCE.md) for the precise provenance.
+The 2:42 video includes a real-world tabletop source clip, actual saved Meta Model API outputs, and a captured browser walkthrough. The walkthrough replays the recorded model outputs for a predictable demo recording. These tests exercise particular scenarios rather than establishing a universal real-world tracking accuracy rate; see [DEMO_EVIDENCE.md](./DEMO_EVIDENCE.md) for the precise provenance.
 
 ### Quick start
 
@@ -67,7 +67,7 @@ lib/geometry.js                 Independent numeric scene verifier
 lib/quest.js                    Physical quest selection
 lib/meta.js                     API validation and access protection
 test/*.test.mjs                 Automated verification cases
-demo.mp4                        Competition demonstration (2:55)
+demo.mp4                        Competition demonstration (2:42)
 DEMO_EVIDENCE.md                Evidence and demo provenance
 ```
 
